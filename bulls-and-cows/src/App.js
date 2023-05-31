@@ -107,7 +107,7 @@ function App() {
           disabled={isSuccess}
         />
         {isSuccess ? (
-          <button onClick={handleSubmit}>다시하기</button>
+          <button onClick={handleRetry}>다시하기</button>
         ) : (
           <button onClick={handleSubmit}>맞춰보기</button>
         )}
