@@ -10,7 +10,7 @@ function App() {
     console.log(randomNumber);
   }, [randomNumber]);
 
-  const handleAnswerChanged = (e) => {
+  const handleAnswerChanged = (e) => { //사용자 입력 이벤트
     console.log(e.target.value);
     setAnswer(e.target.value);
   };
@@ -21,7 +21,7 @@ function App() {
       <header className="header">{randomNumber}</header>
       <section>
         <input type="text" value={answer} onChange={handleAnswerChanged} />
-        <button>맞춰보기</button>
+        <button onClick={}>맞춰보기</button>
       </section>
       <h2>기록</h2>
       <ol>
