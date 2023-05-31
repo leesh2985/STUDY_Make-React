@@ -10,9 +10,42 @@ function App() {
     console.log(randomNumber);
   }, [randomNumber]);
 
-  const handleAnswerChanged = (e) => { //사용자 입력 이벤트
-    console.log(e.target.value);
+  const handleAnswerChanged = (e) => {
+    //사용자 입력 이벤트
     setAnswer(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    // 스트라이크, 볼, 정답유무
+
+    const answers = answer.split("").map((item) => Number(item));
+
+    const { strike, ball } = randomNumber.reduce(
+      (prev, cur, index) => {
+        // 같은 자리에 같은수가 존재하면 스트라이크
+        if (answers[index] === cur) {
+          return {
+            ...prev,
+            strike: prev.strike + 1,
+          };
+        }
+
+        //다른자리에 수가 존재하면 볼
+        if (answers.includes(cur)) {
+          return {
+            ...prev,
+            ball: prev.ball + 1,
+          };
+        }
+
+        return prev;
+      },
+      {
+        strike: 0,
+        ball: 0,
+      }
+    );
+    console.log(strike, ball);
   };
 
   return (
@@ -21,7 +54,7 @@ function App() {
       <header className="header">{randomNumber}</header>
       <section>
         <input type="text" value={answer} onChange={handleAnswerChanged} />
-        <button onClick={}>맞춰보기</button>
+        <button onClick={handleSubmit}>맞춰보기</button>
       </section>
       <h2>기록</h2>
       <ol>
