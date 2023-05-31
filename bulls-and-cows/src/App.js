@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import { generateRandomNumber } from "./random";
 
 function App() {
   const [randomNumber] = useState(generateRandomNumber());
-  // console.log(generateRandomNumber());
+
+  useEffect(() => {
+    console.log(randomNumber);
+  }, [randomNumber]);
 
   return (
     <div className="App">
