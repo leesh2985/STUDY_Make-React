@@ -12,13 +12,13 @@
   color: #c0c0c0;
   background-color: #fff;
   align-items: center;
+  cursor: pointer;
 }
 
 .checkAllIcon,
 .removeAllIcon {
   font-size: 30px;
   margin-right: 8px;
-  cursor: pointer;
 }
 
 .removeButton {
