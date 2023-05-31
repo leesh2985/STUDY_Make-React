@@ -4,17 +4,23 @@ import { generateRandomNumber } from "./random";
 
 function App() {
   const [randomNumber] = useState(generateRandomNumber());
+  const [answer, setAnswer] = useState("");
 
   useEffect(() => {
     console.log(randomNumber);
   }, [randomNumber]);
+
+  const handleAnswerChanged = (e) => {
+    console.log(e.target.value);
+    setAnswer(e.target.value);
+  };
 
   return (
     <div className="App">
       <h1>숫자 야구 게임</h1>
       <header className="header">{randomNumber}</header>
       <section>
-        <input />
+        <input type="text" value={answer} onChange={handleAnswerChanged} />
         <button>맞춰보기</button>
       </section>
       <h2>기록</h2>
