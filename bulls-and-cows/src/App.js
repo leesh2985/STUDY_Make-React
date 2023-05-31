@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import { generateRandomNumber } from "./random";
+import Logs from "./Logs"; // 함수 컨포넌트
 
 function App() {
   const [randomNumber, setRandomNumber] = useState(generateRandomNumber());
@@ -112,12 +113,13 @@ function App() {
           <button onClick={handleSubmit}>맞춰보기</button>
         )}
       </section>
-      <h2>기록</h2>
+      <Logs logs={logs} />
+      {/* <h2>기록</h2>
       <ol>
         {logs.map((log, index) => {
           return <li key={`${log}_${index}`}>{log}</li>;
         })}
-      </ol>
+      </ol> 함수컨포넌트 땜시 지움*/}
     </div>
   );
 }
