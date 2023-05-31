@@ -1,13 +1,15 @@
+import { useState } from "react";
 import "./App.css";
 import { generateRandomNumber } from "./random";
 
 function App() {
-  console.log(generateRandomNumber());
+  const [randomNumber] = useState(generateRandomNumber());
+  // console.log(generateRandomNumber());
 
   return (
     <div className="App">
       <h1>숫자 야구 게임</h1>
-      <header className="header">----</header>
+      <header className="header">{randomNumber}</header>
       <section>
         <input />
         <button>맞춰보기</button>
