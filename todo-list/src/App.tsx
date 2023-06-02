@@ -8,6 +8,7 @@ import TodoListArea from "./List/TodoListArea";
 import { todoInputReducer } from "./Todo/todoInputReducer";
 import TodoListTools from "./Tools/TodoListTools";
 import { todoReducer } from "./Todo/todoReducer";
+import TodoProvider from "./Todo/TodoProvider";
 
 function App() {
   const [inputState, inputDispatch] = useReducer(todoInputReducer, {
@@ -72,27 +73,29 @@ function App() {
 
   return (
     <main className="App">
-      <TodoHeader
-        count={todoState.todos.filter((todo) => !todo.isChecked).length}
-      />
-      <TodoInput
-        text={inputState.text}
-        onTextChange={handleTextChange}
-        onSubmit={handleSubmit}
-      />
-      <TodoListArea todoCount={todoState.todos.length}>
-        <TodoListTools
-          isAllChecked={isTodoAllChecked()}
-          onRemoveAllClick={handleRemoveAllClick}
-          onToggleAllClick={handleToggleAllClick}
+      <TodoProvider>
+        <TodoHeader
+          count={todoState.todos.filter((todo) => !todo.isChecked).length}
         />
-        <Divder />
-        <TodoList
-          todos={todoState.todos}
-          onRemoveClick={handleRemove}
-          onToggleClick={handleToggle}
+        <TodoInput
+          text={inputState.text}
+          onTextChange={handleTextChange}
+          onSubmit={handleSubmit}
         />
-      </TodoListArea>
+        <TodoListArea todoCount={todoState.todos.length}>
+          <TodoListTools
+            isAllChecked={isTodoAllChecked()}
+            onRemoveAllClick={handleRemoveAllClick}
+            onToggleAllClick={handleToggleAllClick}
+          />
+          <Divder />
+          <TodoList
+            todos={todoState.todos}
+            onRemoveClick={handleRemove}
+            onToggleClick={handleToggle}
+          />
+        </TodoListArea>
+      </TodoProvider>
     </main>
   );
 }
