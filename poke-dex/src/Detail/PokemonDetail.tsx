@@ -6,6 +6,7 @@ import {
 } from "../Service/PokemonService";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { PokeImageSkeleton } from "../Common/PokeImageSkeleton";
 
 const PokemonDetail = () => {
   const { name } = useParams();
@@ -23,7 +24,18 @@ const PokemonDetail = () => {
   }, [name]);
 
   if (!name || !pokemon) {
-    return null; // TODO: name이 없을 때
+    return (
+      <Container>
+        <ImageContainer>
+          {" "}
+          <PokeImageSkeleton />
+        </ImageContainer>
+        <Divider />
+        <Footer>
+          <PokeMarkChip />
+        </Footer>
+      </Container>
+    );
   }
 
   return (
@@ -92,6 +104,7 @@ const ImageContainer = styled.section`
   justify-content: center;
   align-items: center;
   margin: 8px 0;
+  min-height: 350px;
 `;
 
 const Image = styled.img`

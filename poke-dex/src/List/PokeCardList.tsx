@@ -12,6 +12,23 @@ const PokeCardList = () => {
     next: "",
     results: [],
   });
+
+  const [infiniteRef] = useInfiniteScroll({
+    loading: false,
+    hasNextPage: pokemons.next !== "",
+    onLoadMore: async () => {
+      const morePokemons = await fetchPokemons(pokemons.next);
+
+      setPokemons({
+        ...morePokemons,
+        results: [...pokemons.results, ...morePokemons.results],
+      });
+    },
+    disabled: false,
+
+    rootMargin: "0px 0px 100px 0px",
+  });
+
   //axios 연결
   useEffect(() => {
     (async () => {
@@ -21,15 +38,23 @@ const PokeCardList = () => {
   }, []);
 
   return (
-    <List>
-      {pokemons.results.map((pokemon, index) => {
-        return (
-          <PokeCard key={`${pokemon.name}_${index}`} name={pokemon.name} />
-        );
-      })}
-    </List>
+    <>
+      <List>
+        {pokemons.results.map((pokemon, index) => {
+          return (
+            <PokeCard key={`${pokemon.name}_${index}`} name={pokemon.name} />
+          );
+        })}
+      </List>
+      <Loading ref={infiniteRef}>Loading...</Loading>
+    </>
   );
 };
+
+const Loading = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 const List = styled.ul`
   list-style: none;
@@ -44,3 +69,13 @@ const List = styled.ul`
 `;
 
 export default PokeCardList;
+
+function useInfiniteScroll(arg0: {
+  loading: boolean;
+  hasNextPage: boolean;
+  onLoadMore: () => Promise<void>;
+  disabled: boolean;
+  rootMargin: string;
+}): [any] {
+  throw new Error("Function not implemented.");
+}
