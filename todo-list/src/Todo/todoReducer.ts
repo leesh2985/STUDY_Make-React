@@ -1,5 +1,7 @@
 import { saveTodos } from "./todoStorage";
 
+// 리듀스 다시 볼것
+
 export type TodoType = {
   id: number;
   text: string;
