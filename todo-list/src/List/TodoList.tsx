@@ -1,5 +1,5 @@
-import { TodoType } from "../App";
 import TodoItem from "../ListItem/TodoItem";
+import { TodoType } from "../Todo/todoReducer";
 import styles from "./TodoList.module.css";
 
 interface TodoLostProps {
