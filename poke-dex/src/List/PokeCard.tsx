@@ -40,7 +40,7 @@ const PokeCard = (props: PokeCardProps) => {
         <PokeNameChip name={pokemon.name} id={pokemon.id} />
       </Header>
       <Body>
-        <Image src={TempimgUrl} alt="이상해씨 이미지" />
+        <Image src={pokemon.images.dreamWorldFront} alt={pokemon.name} />
       </Body>
       <Footer>
         <PokeMarkChip />
