@@ -1,9 +1,8 @@
-type TodoInputStateType = {
-  test: string;
+export type TodoInputStateType = {
+  text: string;
 };
-
 // change, clear
-type TodoInputActionType =
+export type TodoInputActionType =
   | {
       type: "change";
       payload: string;
@@ -11,6 +10,10 @@ type TodoInputActionType =
   | {
       type: "clear";
     };
+
+export const initialTodoInputState = {
+  text: "",
+};
 
 export const todoInputReducer = (
   state: TodoInputStateType,
@@ -22,6 +25,10 @@ export const todoInputReducer = (
         text: action.payload,
       };
     case "clear":
-      return { text: "" };
+      return {
+        text: "",
+      };
+    default:
+      throw new Error();
   }
 };
