@@ -5,6 +5,7 @@ import {
   PokemonListReponseType,
   fetchPokemons,
 } from "../Service/PokemonService";
+import useInfiniteScroll from "react-infinite-scroll-hook";
 
 const PokeCardList = () => {
   const [pokemons, setPokemons] = useState<PokemonListReponseType>({
@@ -14,6 +15,7 @@ const PokeCardList = () => {
   });
 
   const [infiniteRef] = useInfiniteScroll({
+    // 인스톨제대로해서 useInfiniteScroll가지고오기..
     loading: false,
     hasNextPage: pokemons.next !== "",
     onLoadMore: async () => {
@@ -69,13 +71,3 @@ const List = styled.ul`
 `;
 
 export default PokeCardList;
-
-function useInfiniteScroll(arg0: {
-  loading: boolean;
-  hasNextPage: boolean;
-  onLoadMore: () => Promise<void>;
-  disabled: boolean;
-  rootMargin: string;
-}): [any] {
-  throw new Error("Function not implemented.");
-}

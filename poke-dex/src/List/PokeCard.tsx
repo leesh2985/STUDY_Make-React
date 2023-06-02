@@ -8,6 +8,7 @@ import {
   fetchPokemonDetail,
 } from "../Service/PokemonService";
 import { PokeImageSkeleton } from "../Common/PokeImageSkeleton";
+import { useIntersectionObserver } from "react-intersection-observer-hook";
 
 interface PokeCardProps {
   name: string;
@@ -15,6 +16,8 @@ interface PokeCardProps {
 
 const PokeCard = (props: PokeCardProps) => {
   const navigate = useNavigate();
+  const [ref, { entry }] = useIntersectionObserver();
+  const isVisible = entry && entry.isIntersecting;
   const [pokemon, setPokemon] = useState<PokemonDetailType | null>(null);
 
   const handleClick = () => {
