@@ -8,9 +8,6 @@ import {
   fetchPokemonDetail,
 } from "../Service/PokemonService";
 
-const TempimgUrl =
-  "https://mblogthumb-phinf.pstatic.net/20160817_259/retspe_14714118890125sC2j_PNG/%C7%C7%C4%AB%C3%F2_%281%29.png?type=w800";
-
 interface PokeCardProps {
   name: string;
 }
@@ -35,9 +32,15 @@ const PokeCard = (props: PokeCardProps) => {
   }
 
   return (
-    <Item onClick={handleClick}>
+    //이게 배경 컬러변경?
+    <Item onClick={handleClick} color={pokemon.color}>
+      {" "}
       <Header>
-        <PokeNameChip name={pokemon.name} id={pokemon.id} />
+        <PokeNameChip
+          name={pokemon.koreaName}
+          color={pokemon.color}
+          id={pokemon.id}
+        />
       </Header>
       <Body>
         <Image src={pokemon.images.dreamWorldFront} alt={pokemon.name} />
@@ -50,7 +53,7 @@ const PokeCard = (props: PokeCardProps) => {
 };
 
 // 네모칸
-const Item = styled.li`
+const Item = styled.li<{ color: string }>`
   display: flex;
   flex-direction: column;
 
@@ -63,6 +66,19 @@ const Item = styled.li`
   box-shadow: 1px 1px 3px 1px#c0c0c0;
 
   cursor: pointer;
+  //아이템창 움직이기 찾음
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    //컬러는 여기네...
+    background-color: ${(props) => props.color};
+    opacity: 0.8;
+    transition: background-color 0s;
+  }
 `;
 
 // 포켓몬

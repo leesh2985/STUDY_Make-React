@@ -50,11 +50,25 @@ interface PokemonDetailReponseType {
   }[];
 }
 
+interface PokemonSpeciesReponseType {
+  color: {
+    name: string;
+  };
+  names: {
+    name: string;
+    language: {
+      name: string;
+    };
+  }[];
+}
+
 export interface PokemonDetailType {
   id: number;
   weight: number;
   height: number;
   name: string;
+  koreaName: string;
+  color: string;
   types: string[];
   images: {
     frontDefault: string;
@@ -71,12 +85,24 @@ export const fetchPokemonDetail = async (
   name: string
 ): Promise<PokemonDetailType> => {
   const pokemonDetailUrl = `https://pokeapi.co/api/v2/pokemon/${name}`;
+  const pokemonSpeciesUrl = `https://pokeapi.co/api/v2/pokemon-species/${name}`;
+
   const response = await remote.get<PokemonDetailReponseType>(pokemonDetailUrl);
+  const speciesResponse = await remote.get<PokemonSpeciesReponseType>(
+    pokemonSpeciesUrl
+  );
   const detail = response.data;
+  const species = speciesResponse.data;
+
+  const koreaName =
+    species.names.find((item) => item.language.name === "ko")?.name ??
+    detail.name;
 
   return {
     id: detail.id,
     name: detail.name,
+    color: species.color.name,
+    koreaName: koreaName,
     height: detail.height / 10, // 미터단위
     weight: detail.weight / 10, // kg단위
     types: detail.types.map((item) => item.type.name),
