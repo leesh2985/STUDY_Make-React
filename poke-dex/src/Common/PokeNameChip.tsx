@@ -1,12 +1,17 @@
 import styled from "@emotion/styled";
 
-const PokeNameChip = () => {
+interface PokeNumberChipProps {
+  name: string;
+  id: number;
+}
+
+const PokeNameChip = (props: PokeNumberChipProps) => {
   return (
     <Chip>
       <NumberChip>
-        <Number>001</Number>
+        <Number>{props.id}</Number>
       </NumberChip>
-      <Text>이상해씨</Text>
+      <Text>{props.name}</Text>
     </Chip>
   );
 };
