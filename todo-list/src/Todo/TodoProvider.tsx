@@ -1,15 +1,28 @@
-import { createContext, ReactNode, useReducer } from "react";
-import { todoInputReducer } from "./todoInputReducer";
-import { todoReducer } from "./todoReducer";
+import {
+  createContext,
+  ReactNode,
+  useReducer,
+  Dispatch,
+  useContext,
+} from "react";
+import {
+  TodoInputActionType,
+  TodoInputStateType,
+  todoInputReducer,
+} from "./todoInputReducer";
+import { TodoActionType, todoReducer, TodoStateType } from "./todoReducer";
 
 interface TodoProviderProps {
   childen: ReactNode;
 }
 
-const TodoStateContext = createContext(null);
-const TodoTodoDispatchContext = createContext(null);
-const InputTodoContext = createContext(null);
-const InputTodoDispatchContext = createContext(null);
+const TodoStateContext = createContext<TodoStateType | null>(null);
+const TodoDispatchContext = createContext<Dispatch<TodoActionType> | null>(
+  null
+);
+const InputTodoContext = createContext<TodoInputStateType | null>(null);
+const InputTodoDispatchContext =
+  createContext < Dispatch<TodoInputActionType | null>(null);
 
 const TodoProvider = (props: TodoProviderProps) => {
   const [todoState, todoDispatch] = useReducer(todoReducer, { todos: [] });
@@ -19,15 +32,55 @@ const TodoProvider = (props: TodoProviderProps) => {
 
   return (
     <TodoStateContext.Provider value={todoState}>
-      <TodoTodoDispatchContext.Provider value={todoDispatch}>
+      <TodoDispatchContext.Provider value={todoDispatch}>
         <InputTodoContext.Provider value={inputState}>
           <InputTodoDispatchContext.Provider value={inputDispatch}>
             {props.childen}
           </InputTodoDispatchContext.Provider>
         </InputTodoContext.Provider>
-      </TodoTodoDispatchContext.Provider>
+      </TodoDispatchContext.Provider>
     </TodoStateContext.Provider>
   );
+};
+
+export const useTodoState = () => {
+  const value = useContext(TodoStateContext);
+
+  if (!value) {
+    throw new Error("cannot find todoState");
+  }
+
+  return value;
+};
+
+export const useTodoDispatch = () => {
+  const value = useContext(TodoDispatchContext);
+
+  if (!value) {
+    throw new Error("cannot find todoDispatch");
+  }
+
+  return value;
+};
+
+export const useInputTodoState = () => {
+  const value = useContext(InputTodoContext);
+
+  if (!value) {
+    throw new Error("cannot find inputTodoState");
+  }
+
+  return value;
+};
+
+export const useInputTodoDispatch = () => {
+  const value = useContext(InputTodoDispatchContext);
+
+  if (!value) {
+    throw new Error("cannot find inputTodoDispatch");
+  }
+
+  return value;
 };
 
 export default TodoProvider;
