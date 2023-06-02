@@ -25,15 +25,18 @@ const PokeCard = (props: PokeCardProps) => {
   };
 
   useEffect(() => {
+    if (!isVisible) {
+      return;
+    }
     (async () => {
       const detail = await fetchPokemonDetail(props.name);
       setPokemon(detail);
     })();
-  }, [props.name]);
+  }, [props.name, isVisible]);
 
   if (!pokemon) {
     return (
-      <Item color={"#fff"}>
+      <Item ref={ref} color={"#fff"}>
         <Header>
           <PokeNameChip name={"포켓몬"} color={"#ffca09"} id={0} />
         </Header>
@@ -49,7 +52,7 @@ const PokeCard = (props: PokeCardProps) => {
 
   return (
     //이게 배경 컬러변경?
-    <Item onClick={handleClick} color={pokemon.color}>
+    <Item onClick={handleClick} color={pokemon.color} ref={ref}>
       {" "}
       <Header>
         <PokeNameChip
