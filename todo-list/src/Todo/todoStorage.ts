@@ -4,7 +4,8 @@ export const saveTodos = (todos: TodoType[]) => {
   localStorage.setItem("todos", JSON.stringify(todos));
 };
 
-export const loadTodos = () => {
+export const loadTodos = (): TodoType[] => {
+  //: TodoType[] 추가안함
   const todoJson = localStorage.getItem("todos");
 
   if (!todoJson) {

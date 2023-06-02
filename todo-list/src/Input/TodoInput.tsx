@@ -1,12 +1,18 @@
 import { RiChatNewLine } from "react-icons/ri";
 import styles from "./TodoInput.module.css";
 import { ChangeEvent, FormEvent } from "react";
-import { useInputTodoState, useTodoDispatch } from "../Todo/TodoProvider";
+import {
+  useInputTodoDispatch,
+  useInputTodoState,
+  useTodoDispatch,
+} from "../Todo/TodoProvider";
 
 const TodoInput = () => {
   const todoDispatch = useTodoDispatch();
-  const inputDispatch = useTodoDispatch();
-  const inputStata = useInputTodoState();
+
+  // 똑같이 썻음
+  const inputDispatch = useInputTodoDispatch();
+  const inputState = useInputTodoState();
 
   const handleInputChanged = (event: ChangeEvent<HTMLInputElement>) => {
     inputDispatch({
@@ -37,7 +43,7 @@ const TodoInput = () => {
         <input
           className={styles.input}
           placeholder={"해야할 Todo"}
-          value={inputStata.text}
+          value={inputState.text}
           onChange={handleInputChanged}
         />
         <button type="submit" className={styles.enter}>
