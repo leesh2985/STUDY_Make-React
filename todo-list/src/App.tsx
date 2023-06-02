@@ -11,11 +11,6 @@ import { todoReducer } from "./Todo/todoReducer";
 import TodoProvider from "./Todo/TodoProvider";
 
 function App() {
-  const [inputState, inputDispatch] = useReducer(todoInputReducer, {
-    todos: "",
-  });
-  const [todoState, todoDispatch] = useReducer(todoReducer, { todos: [] });
-
   const handleTextChange = (text: string) => {
     inputDispatch({
       type: "change",
