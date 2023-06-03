@@ -65,7 +65,7 @@ const PokeCard = (props: PokeCardProps) => {
         />
       </Header>
       <Body>
-        <Image src={pokemon.images[imageType]} alt={pokemon.name} />
+        <Image src={pokemon.images[imageType]} alt={pokemon.name} /> // as string?
       </Body>
       <Footer>
         <PokeMarkChip />
