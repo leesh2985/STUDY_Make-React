@@ -47,6 +47,14 @@ const MapMarker = (props: MapMarkerProps) => {
       image: markerImage,
     });
 
+    kakao.maps.event.addListener(marker, "click", function () {
+      map.setCenter(props.place.position);
+      map.setLevel(4, {
+        animate: true,
+      });
+      infowindow.setMap(map);
+    });
+
     return marker;
   }, []);
 
@@ -73,7 +81,11 @@ const MapMarker = (props: MapMarkerProps) => {
 
   return container.current
     ? ReactDOM.createPortal(
-        <Message>
+        <Message
+          onClick={() => {
+            infowindow.setMap(null);
+          }}
+        >
           <Title> {props.place.title}</Title>
           <Address> {props.place.address}</Address>
         </Message>,
