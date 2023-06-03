@@ -21,19 +21,20 @@ const MapMarker = (props: MapMarkerProps) => {
   useLayoutEffect(() => {
     marker.setMap(map); //지도 위 마커를표시
 
-    useEffect(() => {
-      if (props.showInfo) {
-        console.log("props.place.title");
-        return;
-      }
-
-      // 선택 해제
-    }, [props.showInfo]);
-
     return () => {
       marker.setMap(null);
     };
   }, [map]);
+
+  useEffect(() => {
+    // useLayoutEffect(() => {marker.setMap(map); 밑에 적어서 오류 생겼었음
+    if (props.showInfo) {
+      console.log("props.place.title");
+      return;
+    }
+
+    // 선택 해제
+  }, [props.showInfo]);
 
   return <></>;
 };
