@@ -8,7 +8,7 @@ const App = () => {
       <DynamicMap>
         <SearchLocation />
       </DynamicMap>
-      <SearchLocation />
+      {/* <SearchLocation />한개 더 넣어줬음;; */}
     </KakaoMapScriptLoader>
   );
 };
