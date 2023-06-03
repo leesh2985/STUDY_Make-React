@@ -1,9 +1,10 @@
-import { useLayoutEffect, useMemo } from "react";
+import { useEffect, useLayoutEffect, useMemo } from "react";
 import { PlaceType } from "./mapTypes";
 import { useMap } from "../hooks/useMap";
 
 interface MapMarkerProps {
   place: PlaceType;
+  showInfo?: boolean;
 }
 
 const MapMarker = (props: MapMarkerProps) => {
@@ -19,6 +20,15 @@ const MapMarker = (props: MapMarkerProps) => {
 
   useLayoutEffect(() => {
     marker.setMap(map); //지도 위 마커를표시
+
+    useEffect(() => {
+      if (props.showInfo) {
+        console.log("props.place.title");
+        return;
+      }
+
+      // 선택 해제
+    }, [props.showInfo]);
 
     return () => {
       marker.setMap(null);
