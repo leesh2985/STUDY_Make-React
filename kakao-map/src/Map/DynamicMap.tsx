@@ -1,7 +1,13 @@
-import { useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
+import { KakaoMapContext } from "../hooks/useMap";
 
-const DynamicMap = () => {
+interface DynamicMapProps {
+  children: ReactNode;
+}
+
+const DynamicMap = (props: DynamicMapProps) => {
+  const [map, setMap] = useState<kakao.maps.Map>();
   const kakaoMapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -12,12 +18,19 @@ const DynamicMap = () => {
     const targetPoint = new kakao.maps.LatLng(33.450701, 126.570667); //카카오 제주도 본사
     const options = { center: targetPoint, level: 3 };
 
-    new window.kakao.maps.Map(kakaoMapRef.current, options);
+    setMap(new window.kakao.maps.Map(kakaoMapRef.current, options));
   }, []);
 
   return (
     <Container>
       <Map ref={kakaoMapRef} />
+      {map ? (
+        <KakaoMapContext.Provider value={map}>
+          {props.children}
+        </KakaoMapContext.Provider>
+      ) : (
+        <div>지도 정보를 가지고 오는데 실패하였습니다.</div>
+      )}
     </Container>
   );
 };
