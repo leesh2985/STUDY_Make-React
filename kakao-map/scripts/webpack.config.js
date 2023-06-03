@@ -17,7 +17,8 @@ module.exports = {
     clean: true,
   },
   devtool: isProduction ? false : "eval-source-map",
-  devServer: { //decServer오타
+  devServer: {
+    //decServer오타
     port: 3000,
     hot: true,
     open: true,
@@ -33,7 +34,8 @@ module.exports = {
           {
             test: /\.(js|jsx)$/,
             exclude: /node_modules/,
-            ues: {
+            use: {
+              // use 오타 수정
               loader: "babel-loader",
             },
           },
