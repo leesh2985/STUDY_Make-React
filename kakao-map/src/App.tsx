@@ -1,5 +1,5 @@
 const App = () => {
-  return <div className="react">Hello React!</div>;
+  return <div className="react">Hello React with Typescript!</div>;
 };
 
 export default App;
