@@ -1,6 +1,8 @@
-import { useEffect, useLayoutEffect, useMemo } from "react";
+import ReactDOM from "react-dom";
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { PlaceType } from "./mapTypes";
 import { useMap } from "../hooks/useMap";
+import styled from "@emotion/styled";
 
 interface MapMarkerProps {
   place: PlaceType;
@@ -13,6 +15,18 @@ const MARKER_IMAGE_URL =
 
 const MapMarker = (props: MapMarkerProps) => {
   const map = useMap();
+  const container = useRef(document.createElement("div"));
+
+  const infowindow = useMemo(() => {
+    container.current.style.position = "absolute";
+    container.current.style.bottom = "40px";
+
+    return new kakao.maps.CustomOverlay({
+      position: props.place.position,
+      content: container.current,
+      //map: map,
+    });
+  }, []);
 
   const marker = useMemo(() => {
     const imageSize = new kakao.maps.Size(36, 37); // 마커 이미지의 크기
@@ -47,14 +61,48 @@ const MapMarker = (props: MapMarkerProps) => {
   useEffect(() => {
     // useLayoutEffect(() => {marker.setMap(map); 밑에 적어서 오류 생겼었음
     if (props.showInfo) {
-      console.log("props.place.title");
+      infowindow.setMap(map);
+
       return;
     }
 
-    // 선택 해제
+    return () => {
+      infowindow.setMap(null);
+    }; // 선택 해제
   }, [props.showInfo]);
 
-  return <></>;
+  return container.current
+    ? ReactDOM.createPortal(
+        <Message>
+          <Title> {props.place.title}</Title>
+          <Address> {props.place.address}</Address>
+        </Message>,
+        container.current
+      )
+    : null;
 };
+
+const Title = styled.label`
+  font-weight: bold;
+  padding: 6px 8px;
+`;
+
+const Address = styled.span`
+  font-size: 12px;
+  padding: 0 6px 6px;
+`;
+
+const Message = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 180px;
+  min-height: 50px;
+  margin-left: -90px;
+  border-radius: 16px;
+
+  background-color: rgba(225, 228, 196, 0.9);
+`;
 
 export default MapMarker;
