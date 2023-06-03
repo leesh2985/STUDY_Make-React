@@ -27,11 +27,12 @@ const MapMarkerController = (props: MapMarkerControllerProps) => {
 
   return (
     <>
-      {props.places.map((place) => {
+      {props.places.map((place, index) => {
         return (
           <MapMarker
             key={place.id}
             place={place}
+            index={index}
             showInfo={props.selectedPlaceId === place.id}
           />
         );
