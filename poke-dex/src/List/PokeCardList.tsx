@@ -1,30 +1,21 @@
 import styled from "@emotion/styled";
 import PokeCard from "./PokeCard";
-import { useEffect, useState } from "react";
-import {
-  PokemonListReponseType,
-  fetchPokemons,
-} from "../Service/PokemonService";
+import { useEffect } from "react";
 import useInfiniteScroll from "react-infinite-scroll-hook";
+import { RootState, useAppDispatch } from "../Store";
+import { fetchPkoemons } from "../Store/pokemonsSlice";
+import { useSelector } from "react-redux";
 
 const PokeCardList = () => {
-  const [pokemons, setPokemons] = useState<PokemonListReponseType>({
-    count: 0,
-    next: "",
-    results: [],
-  });
+  const dispatch = useAppDispatch();
+  const { pokemons } = useSelector((state: RootState) => state.pokemons);
 
   const [infiniteRef] = useInfiniteScroll({
     // 인스톨제대로해서 useInfiniteScroll가지고오기..
     loading: false,
     hasNextPage: pokemons.next !== "",
     onLoadMore: async () => {
-      const morePokemons = await fetchPokemons(pokemons.next);
-
-      setPokemons({
-        ...morePokemons,
-        results: [...pokemons.results, ...morePokemons.results],
-      });
+      dispatch(fetchPkoemons(pokemons.next));
     },
     disabled: false,
 
@@ -33,11 +24,8 @@ const PokeCardList = () => {
 
   //axios 연결
   useEffect(() => {
-    (async () => {
-      const pokemons = await fetchPokemons();
-      setPokemons(pokemons);
-    })();
-  }, []);
+    dispatch(fetchPkoemons());
+  }, [dispatch]);
 
   return (
     <>

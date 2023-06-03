@@ -2,15 +2,11 @@ import styled from "@emotion/styled";
 import PokeNameChip from "../Common/PokeNameChip";
 import PokeMarkChip from "../Common/PokeMarkChip";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import {
-  PokemonDetailType,
-  fetchPokemonDetail,
-} from "../Service/PokemonService";
+import { useEffect } from "react";
 import { PokeImageSkeleton } from "../Common/PokeImageSkeleton";
 import { useIntersectionObserver } from "react-intersection-observer-hook";
 import { useSelector } from "react-redux";
-import { RootState } from "../Store";
+import { RootState, useAppDispatch } from "../Store";
 
 interface PokeCardProps {
   name: string;
@@ -18,10 +14,14 @@ interface PokeCardProps {
 
 const PokeCard = (props: PokeCardProps) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const imageType = useSelector((state: RootState) => state.imageType.type);
+  const { pokemonsDetails } = useSelector(
+    (state: RootState) => state.pokemonsDetail.pokemonsDetails
+  );
+  const pokemon = pokemonsDetails[props.name];
   const [ref, { entry }] = useIntersectionObserver();
   const isVisible = entry && entry.isIntersecting;
-  const [pokemon, setPokemon] = useState<PokemonDetailType | null>(null);
 
   const handleClick = () => {
     navigate(`/pokemon/${props.name}`);
@@ -31,11 +31,9 @@ const PokeCard = (props: PokeCardProps) => {
     if (!isVisible) {
       return;
     }
-    (async () => {
-      const detail = await fetchPokemonDetail(props.name);
-      setPokemon(detail);
-    })();
-  }, [props.name, isVisible]);
+
+    dispatch(fatchPokemonDetail(props.name));
+  }, [dispatch, props.name, isVisible]);
 
   if (!pokemon) {
     return (
@@ -65,7 +63,8 @@ const PokeCard = (props: PokeCardProps) => {
         />
       </Header>
       <Body>
-        <Image src={pokemon.images[imageType]} alt={pokemon.name} /> // as string?
+        <Image src={pokemon.images[imageType]} alt={pokemon.name} />
+        {/* as string? */}
       </Body>
       <Footer>
         <PokeMarkChip />

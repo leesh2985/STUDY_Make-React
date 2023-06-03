@@ -11,7 +11,7 @@ export interface PokemonListReponseType {
   }[];
 }
 
-export const fetchPokemons = async (nextUrl?: string) => {
+export const fetchPokemonsAPI = async (nextUrl?: string) => {
   const requesUrl = nextUrl ? nextUrl : "https://pokeapi.co/api/v2/pokemon";
   // post, get, put, delete
 
@@ -81,7 +81,7 @@ export interface PokemonDetailType {
   }[];
 }
 
-export const fetchPokemonDetail = async (
+export const fetchPkoemonDetailAPI = async (
   name: string
 ): Promise<PokemonDetailType> => {
   const pokemonDetailUrl = `https://pokeapi.co/api/v2/pokemon/${name}`;
