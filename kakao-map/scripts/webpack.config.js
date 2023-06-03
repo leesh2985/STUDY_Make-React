@@ -12,13 +12,12 @@ module.exports = {
     extensions: [".js", ".jsx"],
   },
   output: {
-    path: path.resolve(__dirname, "..//build"),
+    path: path.resolve(__dirname, "../build"),
     filename: "static/js/[name].[contenthash:8].js",
     clean: true,
   },
   devtool: isProduction ? false : "eval-source-map",
   devServer: {
-    //decServer오타
     port: 3000,
     hot: true,
     open: true,
@@ -35,12 +34,11 @@ module.exports = {
             test: /\.(js|jsx)$/,
             exclude: /node_modules/,
             use: {
-              // use 오타 수정
               loader: "babel-loader",
             },
           },
           {
-            test: /\.css$/i,
+            test: /\.css$/,
             exclude: /node_modules/,
             use: [
               isProduction ? MiniCssExtractPlugin.loader : "style-loader",
