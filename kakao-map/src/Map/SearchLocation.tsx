@@ -1,13 +1,68 @@
 import styled from "@emotion/styled";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
+
+interface PlaceType {
+  id: string;
+  position: kakao.maps.LatLng;
+  title: string;
+  address: string;
+}
 
 const SearchLocation = () => {
   const [keyword, setKeyword] = useState("");
+  const [places, setPlaces] = useState<PlaceType[]>([]);
+  const placeService = useRef<kakao.maps.services.Places | null>(null);
+
+  useEffect(() => {
+    if (placeService.current) {
+      return;
+    }
+
+    placeService.current = new kakao.maps.services.Places();
+  }, []);
+
+  const searchPlaces = (keyword: string) => {
+    if (!keyword.replace(/^\s+|\s+$/g, "")) {
+      alert("키워드를 입력해주세요!");
+      return;
+    }
+
+    if (!placeService.current) {
+      // TODO: placeService error handling
+      alert("placeService 에러");
+      return;
+    }
+
+    placeService.current.keywordSearch(keyword, (data, status) => {
+      if (status === kakao.maps.services.Status.OK) {
+        console.log(data);
+        const placeInfos = data.map((placeSearchResultItem) => {
+          return {
+            id: placeSearchResultItem.id,
+            position: new kakao.maps.LatLng(
+              Number(placeSearchResultItem.y),
+              Number(placeSearchResultItem.x)
+            ),
+            title: placeSearchResultItem.place_name,
+            address: placeSearchResultItem.address_name,
+          };
+        });
+
+        setPlaces(placeInfos);
+      } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+        alert("검색 결과가 존재하지 않습니다.");
+        return;
+      } else if (status === kakao.maps.services.Status.ERROR) {
+        alert("검색 결과 중 오류가 발생했습니다.");
+        return;
+      }
+    });
+  };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    alert(keyword);
+    searchPlaces(keyword);
   };
 
   return (
@@ -21,11 +76,11 @@ const SearchLocation = () => {
         />
       </Form>
       <List>
-        {Array.from({ length: 15 }).map((item, index) => {
+        {places.map((item, index) => {
           return (
-            <Item key={index}>
-              <label>지역</label>
-              <span>서울 강남구 신사동 668-33</span>
+            <Item key={item.id}>
+              <label>{`${index + 1}. ${item.title}`}지역</label>
+              <span>{item.address}</span>
             </Item>
           );
         })}
