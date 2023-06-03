@@ -17,7 +17,7 @@ module.exports = {
     clean: true,
   },
   devtool: isProduction ? false : "eval-source-map",
-  decServer: {
+  devServer: { //decServer오타
     port: 3000,
     hot: true,
     open: true,
