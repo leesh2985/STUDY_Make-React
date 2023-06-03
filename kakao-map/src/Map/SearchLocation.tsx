@@ -1,15 +1,13 @@
 import styled from "@emotion/styled";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useMap } from "../hooks/useMap";
+import { PlaceType } from "./mapTypes";
 
-interface PlaceType {
-  id: string;
-  position: kakao.maps.LatLng;
-  title: string;
-  address: string;
+interface SearchLocationProps {
+  onUpdatePlaces: (places: PlaceType[]) => void;
 }
 
-const SearchLocation = () => {
+const SearchLocation = (props: SearchLocationProps) => {
   const map = useMap();
   const [keyword, setKeyword] = useState("");
   const [places, setPlaces] = useState<PlaceType[]>([]);
@@ -37,7 +35,6 @@ const SearchLocation = () => {
 
     placeService.current.keywordSearch(keyword, (data, status) => {
       if (status === kakao.maps.services.Status.OK) {
-        console.log(data);
         const placeInfos = data.map((placeSearchResultItem) => {
           return {
             id: placeSearchResultItem.id,
@@ -50,6 +47,7 @@ const SearchLocation = () => {
           };
         });
 
+        props.onUpdatePlaces(placeInfos);
         setPlaces(placeInfos);
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         alert("검색 결과가 존재하지 않습니다.");

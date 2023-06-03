@@ -22,8 +22,10 @@ const DynamicMap = (props: DynamicMapProps) => {
   }, []);
 
   return (
-    <Container>
-      <Map ref={kakaoMapRef} />
+    <>
+      <Container>
+        <Map ref={kakaoMapRef} />
+      </Container>
       {map ? (
         <KakaoMapContext.Provider value={map}>
           {props.children}
@@ -31,7 +33,7 @@ const DynamicMap = (props: DynamicMapProps) => {
       ) : (
         <div>지도 정보를 가지고 오는데 실패하였습니다.</div>
       )}
-    </Container>
+    </>
   );
 };
 
