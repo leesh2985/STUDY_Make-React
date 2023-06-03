@@ -1,5 +1,12 @@
+import DynamicMap from "./Map/DynamicMap";
+import KakaoMapScriptLoader from "./Map/KakaoMapScriptLoader";
+
 const App = () => {
-  return <div className="react">Hello React with Typescript!</div>;
+  return (
+    <KakaoMapScriptLoader>
+      <DynamicMap />
+    </KakaoMapScriptLoader>
+  );
 };
 
 export default App;
